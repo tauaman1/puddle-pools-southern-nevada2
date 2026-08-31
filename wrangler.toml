@@ -1,0 +1,12 @@
+name = "puddle-pools-southern-nevada"
+compatibility_date = "2026-08-31"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "puddle-pools-ops"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "puddle-pools-uploads"

@@ -1,0 +1,7 @@
+# Cloudflare Pages static redirects.
+# IMPORTANT: apex-to-www is best configured as a Cloudflare Redirect Rule/Bulk Redirect,
+# because the apex hostname must first reach Cloudflare.
+
+/employee /portal/ 301
+/login /portal/ 301
+/tech /portal/ 301
