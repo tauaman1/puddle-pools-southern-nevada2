@@ -1,0 +1,8 @@
+export async function onRequestPost({request,env}){
+  const form=await request.formData(); const id=crypto.randomUUID();
+  const property=form.get('property')||''; const service=form.get('service')||''; const observations=form.get('observations')||''; const actions=form.get('actions')||'';
+  await env.DB.prepare(`INSERT INTO inspections (id,property_name,service_type,fc,ph,ta,observations,actions,submitted_at) VALUES (?,?,?,?,?,?,?,?,datetime('now'))`).bind(id,property,service,form.get('fc')||'',form.get('ph')||'',form.get('ta')||'',observations,actions).run();
+  for(const file of form.getAll('photos')){if(file && file.name){const key=`inspections/${id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;await env.UPLOADS.put(key,file.stream(),{httpMetadata:{contentType:file.type||'application/octet-stream'}});await env.DB.prepare(`INSERT INTO uploads (id,entity_type,entity_id,r2_key,file_name,created_at) VALUES (?,?,?,?,?,datetime('now'))`).bind(crypto.randomUUID(),'inspection',id,key,file.name).run();}}
+  if(/leak|broken|unsafe|repair|error|failure/i.test(observations+' '+actions)) await env.DB.prepare(`INSERT INTO notifications (id,type,title,message,status,created_at) VALUES (?,?,?,?,?,datetime('now'))`).bind(crypto.randomUUID(),'inspection','Inspection follow-up required',`${property}: ${observations.slice(0,180)}`,'unread').run();
+  return Response.json({ok:true,id});
+}
