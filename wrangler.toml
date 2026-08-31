@@ -5,7 +5,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "puddle-pools-ops"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "6bcda2e3-548e-4ed3-943a-f04952044c99"
 
 [[r2_buckets]]
 binding = "UPLOADS"
