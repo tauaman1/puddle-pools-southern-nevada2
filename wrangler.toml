@@ -1,5 +1,6 @@
 name = "puddle-pools-southern-nevada2"
 compatibility_date = "2026-08-31"
+[assets]
 pages_build_output_dir = "."
 
 [[d1_databases]]
@@ -8,5 +9,5 @@ database_name = "puddle-pools-ops"
 database_id = "6bcda2e3-548e-4ed3-943a-f04952044c99"
 
 [[r2_buckets]]
-binding = "UPLOADS"
+binding = "uploads"
 bucket_name = "puddle-pools-uploads"
