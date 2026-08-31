@@ -1,0 +1,12 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE IF NOT EXISTS employees(id TEXT PRIMARY KEY,email TEXT UNIQUE NOT NULL,display_name TEXT NOT NULL,role TEXT NOT NULL CHECK(role IN ('technician','manager','admin')),status TEXT DEFAULT 'active',assigned_truck_id TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS trucks(id TEXT PRIMARY KEY,unit_number TEXT UNIQUE NOT NULL,description TEXT,mileage INTEGER DEFAULT 0,next_service_mileage INTEGER,status TEXT DEFAULT 'active');
+CREATE TABLE IF NOT EXISTS inventory(id TEXT PRIMARY KEY,truck_id TEXT NOT NULL,item TEXT NOT NULL,category TEXT,par INTEGER DEFAULT 0,on_hand INTEGER DEFAULT 0,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,UNIQUE(truck_id,item));
+CREATE TABLE IF NOT EXISTS inspections(id TEXT PRIMARY KEY,employee_id TEXT,property_name TEXT NOT NULL,service_type TEXT,fc TEXT,ph TEXT,ta TEXT,observations TEXT,actions TEXT,submitted_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS training_modules(id TEXT PRIMARY KEY,title TEXT NOT NULL,description TEXT,required_role TEXT DEFAULT 'technician',active INTEGER DEFAULT 1);
+CREATE TABLE IF NOT EXISTS training_completion(id TEXT PRIMARY KEY,employee_id TEXT NOT NULL,module_id TEXT NOT NULL,status TEXT DEFAULT 'not_started',score REAL,completed_at TEXT,UNIQUE(employee_id,module_id));
+CREATE TABLE IF NOT EXISTS uploads(id TEXT PRIMARY KEY,entity_type TEXT NOT NULL,entity_id TEXT,r2_key TEXT NOT NULL,file_name TEXT NOT NULL,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS notifications(id TEXT PRIMARY KEY,type TEXT,title TEXT NOT NULL,message TEXT,status TEXT DEFAULT 'unread',created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS leads(id TEXT PRIMARY KEY,type TEXT NOT NULL,first_name TEXT,last_name TEXT,email TEXT,phone TEXT,address TEXT,service TEXT,preferred_date TEXT,message TEXT,status TEXT DEFAULT 'new',created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+INSERT OR IGNORE INTO trucks(id,unit_number,description,mileage,next_service_mileage) VALUES ('truck-02','PP-SN-02','Ford Transit',38420,40000);
+INSERT OR IGNORE INTO training_modules(id,title,description) VALUES ('chemistry','Pool Chemistry','FC, pH, TA, CH, CYA, LSI and safe dosing'),('equipment','Equipment Fundamentals','Pumps, filters, heaters, salt systems and automation'),('safety','Safety & Compliance','PPE, SDS, drain covers and incident reporting');
